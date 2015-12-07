@@ -1,0 +1,31 @@
+
+<% if current_usuario.liked? likeable %>
+  <%= form_tag unlike_path(likeable_type: likeable.class.to_s, likeable_id: likeable.id), method: :post, remote: true do %>
+    <% button_tag class: 'btn btn-block liked' do %>
+      <%= fa_icon 'thumbs-up' %> unlike
+    <% end %>
+  <% end %>
+<% else %>
+  <%= form_tag like_path(likeable_type: likeable.class.to_s, likeable_id: likeable.id), remote: true do %>
+    <% button_tag class: 'btn btn-block' do %>
+      <%= fa_icon 'thumbs-up' %> like
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= form_tag comments_path(commentable_type: commentable.class.to_s, commentable_id: commentable.id), method: :post, remote: true do %>
+  <div class="form-group">
+    <%= text_area_tag :comment_text, nil, placeholder: 'Enter Comment', class: 'form-control' %>
+  </div>
+  <%= submit_tag :comment, class: 'btn btn-primary' %>
+<% end %>
+
+<%= form_for(@post) do |f| %>
+  <div class="form-group">
+    <%= f.label 'Update status' %><br>
+      <%= f.text_area :content, class: 'form-control', autofocus: true, 
+          placeholder: 'What\'s up?' %>
+      <%= f.file_field :attachment, class: 'form-control' %>
+  </div>
+  <%= f.submit :post, class: 'btn btn-primary'%>
+<% end %>
